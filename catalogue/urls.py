@@ -42,6 +42,7 @@ urlpatterns += [
 	path('AddPerson',views.addPerson,name='addPerson'),
 	path('AddPiece',views.addPiece,name='addPiece'),
 #	path('PersonUpdate',views.PersonUpdate,name='personUpdate'),
-#    path('login',views.user_login,'login'),
+    path('userLogin',views.userLogin,name='userLogin'),
+    path('userLogout',views.userLogout,name='userLogout'),
 ]
 

@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+        <h1>Login to CSD</h1>
+
+        <form id="login_form" method="post" >
+            {% csrf_token %}
+            Username:  <input type="text" name="username" value="" size="50" style="margin:10px;"/>
+            <br>
+            Password:  <input type="password" name="password" value="" size="50" style="margin:10px;" />
+            <br>
+
+            <input type="submit" value="submit" style="text-align:center; margin-top:20px; margin-left:20%;" />
+        </form>
+
+{%endblock%}
