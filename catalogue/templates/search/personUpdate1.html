@@ -1,0 +1,72 @@
+{% extends 'base_generic.html' %}
+
+{% load widget_tweaks %}
+
+<!--
+    This template does not use the django filter module but accesses a form directly, making it good for 
+	editting piece details but not for listing pieces
+-->
+{% block content %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <div class = "well">
+	  <h3> Edit details </h3>
+      <div class="row">
+        <div class="form-group col-sm-4 col-md-4">
+          {{ form.firstName.label_tag }}
+          {% render_field form.firstName class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-4">
+          {{ form.surname.label_tag }}
+          {% render_field form.surname class="form-control" %}
+        </div>
+      </div>
+      <div class="row">
+	    <div class="form-group col-sm-6 col-md-6">
+		  {{form.note.label_tag }}
+		  {% render_field form.note class="form_control" style="height:70px;width:100%;" %}
+		</div>
+        <div class="form-group col-sm-3 col-md-3">
+          {{ form.born.label_tag }}
+          {% render_field form.born class="form-control" %}
+        </div>
+        <div class="form-group col-sm-3 col-md-3">
+          {{ form.died.label_tag }}
+          {% render_field form.died class="form-control" %}
+        </div>
+      </div> 
+	
+      <button type="submit">Submit</button>
+	</div> 
+  </form>
+  
+  
+<!--  
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Surname</th>
+        <th>FirstName</th>
+        <th>Born</th>
+        <th>Died</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for person in filter.qs %}
+        <tr>
+          <td><a href="/catalogue/person/{{person.id}}/update">{{ person.surname }}</td>
+          <td>{{ person.firstName }}</td>
+          <td>{{ person.born }}</td>
+		  <td>{{ person.died }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="5">No data</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+-->
+  
+{% endblock %}

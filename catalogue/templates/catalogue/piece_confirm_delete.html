@@ -1,0 +1,16 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+
+<div id="confirm" style="top:50%;left:40%;">
+	<form method="post">{% csrf_token %}
+		<p>Are you sure you want to delete "{{object}}"?</p>
+		<br>
+		<div id="centredButton">
+		<button type="submit">Yes</button >
+		</div>
+	</form>
+</div>
+
+{%endblock%}

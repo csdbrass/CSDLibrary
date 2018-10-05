@@ -1,0 +1,18 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+<h1>Composer: {{ person }} </h1>
+
+<div style="margin-left:20px;margin-top:20px">
+<h4>Pieces:</h4>
+
+<dl>
+{% for piece in person.piece_set.all %}
+  <dt><a href="{% url 'piece-detail' piece.pk %}">{{piece}}</a> </dt>
+  <dd>{{piece.notes}}</dd>
+{% endfor %}
+</dl>
+
+</div>
+{% endblock %}

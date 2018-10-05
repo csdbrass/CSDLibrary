@@ -1,0 +1,36 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>CSD Music Library Catalogue</h1>
+
+ <h2> Update piece details </h2>
+<p>Interface to details of each piece of music in the catalogue.</p>
+
+<div>
+<form method="get" action="/results/" class="navbar-form pull-left">
+
+  <input list="browsers" name="browser">
+    <datalist id="browsers">
+      <option value="Internet Explorer">
+      <option value="Firefox">
+      <option value="Chrome">
+      <option value="Opera">
+      <option value="Safari">
+    </datalist>
+
+  <input type="submit" class="combo" value="Search" >
+</form>
+</div>
+<br>
+<br>
+<h1>Dynamic content</h1>
+
+<p>The library has the following record counts:</p>
+<ul>
+<li> Nothing as yet </li>
+</ul>
+
+
+You have visited this page {{ num_visits }} times.
+
+{% endblock %}

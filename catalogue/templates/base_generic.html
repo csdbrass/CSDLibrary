@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block title %}	
+	    <title>Local Title</title>
+	{% endblock %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+    <!-- Add additional CSS in static file -->
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+
+  </head>
+    <body>
+   	    <div class="container-fluid " >
+			<div class="mainbody">
+				<div class="titleBlock" data-spy="affix" data-offset-top="0">
+					<h1> CSD Music Library Catalogue</h1>
+				</div>
+				
+				{% block sidebar %}
+					<ul class="sidebar-nav" data-spy="affix" data-offset-top="0">
+						<li> <img src= "{% static 'catalogue/images/LogoName.png' %}" height="120" width="165" ></li>
+						<br>
+						<br>
+						<li> <a href="{% url 'index' %}">Home</a></li>
+						<li> <a href="{% url 'pieces' %}">All pieces</a></li>
+						<li> <a href="{% url 'person' %}">All composers and arrangers</a></li>
+						<br>
+						<li>Add </li>
+						<li><a href="{% url 'person_create' %}">Add composer/arranger</a></li>
+						<li><a href="{% url 'piece_create' %}">Add piece</a></li>
+						<br>
+						<li>Search </li>
+						<li><a href="{% url 'searchPerson' %}">Update composer/arranger</a></li>
+						<li><a href="{% url 'search' %}">Update piece</a></li>
+						<li><a href="{% url 'searchList' %}">Update many pieces</a></li>
+					</ul>
+				{% endblock %}
+				
+				<div class="row">
+					<div class="col-sm-2" >
+						<h2>Navigation side-bar</h2>
+					</div>
+					<div class="col-sm-10 ">
+						{% block content %}
+					  
+						{% endblock %}
+			  
+						{% block pagination %}
+							{% if is_paginated %}
+							  <div class="pagination">
+								<span class="page-links">
+								  {% if page_obj.has_previous %}
+									<a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">previous</a>
+								  {% endif %}
+								  <span class="page-current">
+									Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+								  </span>
+								  {% if page_obj.has_next %}
+									<a href="{{ request.path }}?page={{ page_obj.next_page_number }}">next</a>
+								  {% endif %}
+								</span>
+							  </div>
+							{% endif %}
+						{% endblock %} 
+					</div>
+				</div>
+			</div>
+		</div>
+    </body>
+</html>

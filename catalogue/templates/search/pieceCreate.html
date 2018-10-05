@@ -1,0 +1,61 @@
+{% extends 'base_generic.html' %}
+
+{% load widget_tweaks %}
+
+<!--
+    This template does not use the django filter module but accesses a form directly, making it good for 
+	editting piece details but not for listing pieces
+-->
+{% block content %}
+
+  <form method="post" novalidate>
+    {% csrf_token %}
+    <div class = "well">
+	  <h3> Edit details </h3>
+      <div class="row">
+        <div class="form-group col-sm-4 col-md-4">
+          {{ form.title.label_tag }}
+          {% render_field form.title class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-4">
+          {{ form.composer.label_tag }}
+          {% render_field form.composer class="form-control" %}
+        </div>
+        <div class="form-group col-sm-4 col-md-4">
+          {{ form.arranger.label_tag }}
+          {% render_field form.arranger class="form-control" %}
+        </div>
+      </div>
+      <div class="row">
+	    <div class="form-group col-sm-6 col-md-6">
+		  {{form.note.label_tag }}
+		  {% render_field form.note class="form_control" style="height:70px;width:100%;"%}
+		</div>
+        <div class="form-group col-sm-2 col-md-2">
+          {{ form.genre.label_tag }}
+          {% render_field form.genre class="form-control" %}
+        </div>
+        <div class="form-group col-sm-2 col-md-2">
+          {{ form.feature.label_tag }}
+          {% render_field form.feature class="form-control" %}
+        </div>
+        <div class="form-group col-sm-2 col-md-2">
+          {{ form.status.label_tag }}	  
+          {% render_field form.status class="form-control" %}
+<!--
+		  <div>
+            {% for choice in form.status %}
+              <label><input type="checkbox" />
+                 {{ choice.choice_label }}
+              </label>
+            {% endfor %}
+          </div>
+-->
+        </div>
+      </div> 
+	
+      <button type="submit">Commit changes</button>
+	</div> 
+  </form>
+  
+{% endblock %}

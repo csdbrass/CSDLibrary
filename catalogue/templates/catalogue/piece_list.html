@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <h1>List of pieces</h1>
+
+    {% if piece_list %}
+    <ul>
+
+      {% for piece in piece_list %}
+      <li>
+        <a href="{{piece.get_absolute_url }}">{{ piece.title }}</a>  -  {% for composer in piece.composer.all %}{{composer}}{% if not forloop.last %}, {% endif %}{% endfor%}
+		{% for a in piece.arranger.all %} {%if forloop.first%} arr. {% endif %} {{a}}{% if not forloop.last %}, {% endif %}{% endfor%} - {{piece.display_status}}       </li>
+      {% endfor %}
+
+    </ul>
+
+    {% else %}
+      <p>There are no pieces in the catalogue.</p>
+    {% endif %}       
+{% endblock %}
+

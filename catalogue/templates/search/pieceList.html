@@ -1,0 +1,15 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+
+  <form method="get">
+    {{ filter.form.as_p }}
+    <button type="submit">Search</button>
+  </form>
+  <ul>
+  {% for piece in filter.qs %}
+    <li><a href="/catalogue/piece/{{piece.id}}/updateList">{{ piece.title }}</a> - {{ piece.display_composer }} {% if piece.display_arranger %} arr. {{ piece.display_arranger }} {% endif %}  -   {{piece.display_status}}  -  {{ piece.display_genre }} - {{ piece.display_feature }}</li>
+  {% endfor %}
+  </ul>
+{% endblock %}
+

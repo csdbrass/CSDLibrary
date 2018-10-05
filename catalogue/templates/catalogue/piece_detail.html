@@ -1,0 +1,14 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<p><strong>Piece number:</strong> {{ piece.id }}</p>
+<p><strong>Title:</strong> {{ piece.title }}</p>
+
+<p><strong>Composer:</strong> {% for composer in piece.composer.all %}{{composer}}{% if not forloop.last %}, {% endif %}{% endfor%} </p>
+<p><strong>Arranger:</strong> {% for arranger in piece.arranger.all %}{{arranger}}{% if not forloop.last %}, {% endif %}{% endfor%} </p>
+<p><strong>Notes:</strong> {{ piece.note }}</p>
+<p><strong>Genre:</strong> {{ piece.display_genre }}</p>
+<p><strong>Feature:</strong> {{ piece.get_feature_display }}</p>
+<p><strong>Status:</strong> {{ piece.get_status_display }}</p>
+{% endblock %}
+
