@@ -1,5 +1,6 @@
 from django.urls import path
 from django.conf.urls import url
+from django.contrib.auth import views as auth_views
 
 from . import views
 
@@ -42,6 +43,7 @@ urlpatterns += [
 	path('AddPerson',views.addPerson,name='addPerson'),
 	path('AddPiece',views.addPiece,name='addPiece'),
 #	path('PersonUpdate',views.PersonUpdate,name='personUpdate'),
+#    path('userLogin',auth_views.LoginView.as_view(template_name='catalogue/userLogin.html'),name='userLogin'),
     path('userLogin',views.userLogin,name='userLogin'),
     path('userLogout',views.userLogout,name='userLogout'),
 ]

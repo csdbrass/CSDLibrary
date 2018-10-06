@@ -21,13 +21,13 @@ input {
 
 .titleBlock {
     margin: 0px;
-    padding: 20px;
+    padding: 0px;
     list-style: none;
     position: fixed;
     top: 0px;
-	left: 18%;
+	left: 0%;
     background: lightgreen;
-    width:82%;
+    width:100%;
     z-index:12;
 	opacity:1.0;
 }
@@ -57,7 +57,7 @@ body {
 
 .mainbody {
 	padding:10px;
-	padding-bottom:60px;
+	padding-bottom:80px;
 }
 
 .container-fluid{
@@ -109,3 +109,4 @@ body {
     border-style: solid;
     border-color:  green;
 }
+

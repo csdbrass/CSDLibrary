@@ -123,6 +123,9 @@ class Piece(models.Model):
 
 #        return ', '.join( arranger.surname for arranger in self.arranger.all()[:3])
 
+    def display_note(self):
+        return (self.note)
+
     def display_genre(self):
         return ', '.join( genre.name for genre in self.genre.all()[:3])
 

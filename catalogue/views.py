@@ -22,9 +22,12 @@ def index(request):
 
 def search(request):
     piece_list = Piece.objects.all()
-    piece_filter = PieceFilter(request.GET, queryset=piece_list)
+    piece_filter = PieceFilter(request.GET, queryset=piece_list)  
+#    if user.is_staff(): 
     return render(request, 'search/pieceUpdate1.html', {'filter': piece_filter})
-
+#    else:
+#        return render(request, 'search/pieceList1.html', {'filter': piece_filter})
+	
 def searchPerson(request):
     person_list = Person.objects.all()
     person_filter = PersonFilter(request.GET, queryset=person_list)
