@@ -10,7 +10,7 @@
       <div class="row">
         <div class="form-group col-sm-4 col-md-4">
           {{ filter.form.title.label_tag }}
-          {% render_field filter.form.title class="form-control,active" %}
+          {% render_field filter.form.title class="form-control" %}
         </div>
         <div class="form-group col-sm-4 col-md-4">
           {{ filter.form.composer__surname.label_tag }}
@@ -46,19 +46,20 @@
 	</div> 
   </form>
   
-{% if user.is_staff %}
-	<table class="table table-bordered">
-		<thead>
-			<tr>
-				<th>Title</th>
-				<th>Composer</th>
-				<th>Arranger</th>
-				<th>Genre</th>
-				<th>Feature</th>
-				<th>Status</th>
-			</tr>
-		</thead>
-		<tbody>
+  
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Composer</th>
+        <th>Arranger</th>
+        <th>Genre</th>
+        <th>Feature</th>
+		<th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+		{% if user.is_staff %}
 			{% for piece in filter.qs %}
 				<tr>
 					<td><a href="/catalogue/piece/{{piece.id}}/update">{{ piece.title }}</td>
@@ -73,39 +74,22 @@
 				<td colspan="6">No data</td>
 				</tr>
 			{% endfor %}
-		</tbody>
-	</table>
-{% else %}
-	<table class="table table-bordered">
-		<thead>
-			<tr>
-				<th>Title</th>
-				<th>Composer</th>
-				<th>Arranger</th>
-				<th>Notes</th>
-				<th>Genre</th>
-				<th>Feature</th>
-				<th>Status</th>
-			</tr>
-		</thead>
-		<tbody>
+		{% else %}
 			{% for piece in filter.qs %}
-				<tr>
-					<td>{{ piece.title }}</td>
-					<td>{{ piece.display_composer }}</td>
-					<td>{{ piece.display_arranger }}</td>
-					<td>{{ piece.display_note }}</td>
-					<td>{{ piece.display_genre }}</td>
-					<td>{{ piece.get_feature_display }}</td>
-					<td>{{ piece.get_status_display }}</td>
-				</tr>
+				<tr><td>tr>{{ piece.title }}</td></tr>
+				<tr><td>{{ piece.display_composer }}</td></tr>
+				<tr><td>{{ piece.display_arranger }}</td></tr>
+				<tr><td>{{ piece.display_note }}</td></tr>
+				<tr><td>{{ piece.display_genre }}</td></tr>
+				<tr><td>{{ piece.get_feature_display }}</td></tr>
+				<tr><td>{{ piece.get_status_display }}</td></tr>
 			{% empty %}
 				<tr>
-					<td colspan="7">No data</td>
+					<td colspan="6">No data</td>
 				</tr>
-			{% endfor %}
-		</tbody>
-	</table>	
-{% endif %}
+			{% endfor %}	  
+		{% endif %}
+    </tbody>
+  </table>
   
 {% endblock %}

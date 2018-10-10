@@ -19,12 +19,14 @@
    	    <div class="container-fluid " >
 			<div class="mainbody">
 				<div class="titleBlock" data-spy="affix" data-offset-top="0">
-					<table>
-						<tr>
-							<td><img src= "{% static 'catalogue/images/LogoName.png' %}" height="120" width="165" ></td>
-							<td><h1> CSD Music Library Catalogue</h1></td>
-						</tr>
-					</table>
+					<div class="row">
+						<div class="col-sm-4">
+							<img src= "{% static 'catalogue/images/LogoName.png' %}" height="120" width="165" >
+						</div>
+						<div class="col-sm-8 ">
+							<h1> CSD Music Library Catalogue</h1>
+						</div>
+					</div>
 				</div>
 <!--				
 				{% block sidebar %}
@@ -65,7 +67,7 @@
 						<h2>Navigation side-bar</h2>  
 					</div>
 -->
-				<div class="row" style="margin-top:20px">
+				<div class="row" style="margin-top:20px; padding:40px;">
 					<div class="col-sm-12 ">
 						{% block content %}
 					  
@@ -95,6 +97,7 @@
     </body>
 </html>
 
+{%if user.is_authenticated%}
  <nav class="navbar navbar-inverse navbar-fixed-bottom" style="background:lightgreen; padding-top:2%; width;100%; border:none; margin:0;">
   <div class="container-fluid" style="width:100%; margin:0;">
     <ul class="nav navbar-nav" style="width:100%; margin:0;">
@@ -107,19 +110,24 @@
 				{% endif %}
 			</div>
 			<div class="col-sm-1 "><li> <a href="{% url 'index' %}">Home</a></li></div>
+			<div class="col-sm-1"></div>
 			<div class="col-sm-1 "><li>List: <a href="{% url 'pieces' %}">Pieces</a></li></div>
-			<div class="col-sm-2 "><li><a href="{% url 'person' %}">Composers</a></li></div>
+			<div class="col-sm-1 "><li><a href="{% url 'person' %}">Composers</a></li></div>
 			{% if user.is_staff %}
+				<div class="col-sm-1"></div>
 				<div class="col-sm-1 "><li>Add: <a href="{% url 'piece_create' %}">Piece</a></li></div>
-				<div class="col-sm-2 "><li><a href="{% url 'person_create' %}">Composer</a></li></div>
-				<div class="col-sm-2 "><li>Search: <a href="{% url 'search' %}">Piece</a></li></div>
+				<div class="col-sm-1 "><li><a href="{% url 'person_create' %}">Composer</a></li></div>
+				<div class="col-sm-1">Search/Edit: </div>
+				<div class="col-sm-1 "><li><a href="{% url 'search' %}">Piece</a></li></div>
 				<div class="col-sm-1 "><li> <a href="{% url 'searchPerson' %}">Composer</a></li></div>
 				<div class="col-sm-1 "><li> <a href="{% url 'searchList' %}"> Many pieces</a></li></div>
 			{% else %}
-				<div class="col-sm-1 "><li>Search: <a href="{% url 'search' %}">Piece</a></li></div>
+				<div class="col-sm-1">Search: </div>
+				<div class="col-sm-1 "><li><a href="{% url 'search' %}">Piece</a></li></div>
 				<div class="col-sm-1 "><li><a href="{% url 'searchPerson' %}">Composer</a></li></div>
 			{%endif%}
 		</div>
 	</ul>
   </div>
 </nav> 
+{%endif%}

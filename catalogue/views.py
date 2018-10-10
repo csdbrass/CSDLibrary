@@ -5,7 +5,7 @@ from django.views import generic
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
-# Create your views here.
+#  Create your views here.
 
 from .models import Piece, Person, Genre
 from .forms import PieceUpdateForm
@@ -42,6 +42,20 @@ def PieceSearch(request):
     piece_list = Piece.objects.all()
     piece_filter = PieceFilter(request.GET, queryset=piece_list)
     return render(request, 'search/pieceSearch.html', {'filter': piece_filter})
+
+def PieceSearchList(request):
+    if request.method == "POST":
+        form = PieceUpdateForm(request.POST, instance=piece)
+        if form.has_changed():
+            if form.is_valid():   
+                piece = form.save()
+            else:
+                pass    # erroneous form
+        return redirect('pieceEditList', pk=piece.pk+1)
+    else:
+        piece_list = Piece.objects.all()
+        piece_filter = PieceFilter(request.GET, queryset=piece_list)
+        return render(request, 'search/pieceSearch.html', {'filter': piece_filter})
 	
 def PieceEdit(request, pk):
     piece = get_object_or_404(Piece, pk=pk)
@@ -216,7 +230,8 @@ def userLogin(request):
     else:
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
-        return render(request, 'catalogue/userLogin.html', {})
+        return render(request, 'userLogin.html', {})
+		
 # Use the login_required() decorator to ensure only those logged in can access the view.
 
 @login_required
