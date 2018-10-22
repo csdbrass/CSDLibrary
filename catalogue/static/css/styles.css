@@ -19,6 +19,13 @@ input {
   *overflow: hidden;
 }
 
+.well { 
+  background:lightgreen;
+  border:1px;
+  border-style:solid;
+  border-color:green;"
+}
+
 .titleBlock {
     margin: 0px;
     padding: 0px;

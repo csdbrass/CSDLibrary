@@ -4,7 +4,8 @@
 
 {% block content %}
 
-  <form method="get">
+  <form method="post">
+  {% csrf_token %}
     <div class = "well">
       <h3>Search filter</h3>
       <div class="row">

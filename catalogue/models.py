@@ -49,6 +49,7 @@ class Piece(models.Model):
     INSTORE = 'ST'
     DISCARDED = 'DD'
     MISSING = 'LO'
+
     STATUS_CHOICES = (
       (ISSUED, 'Issued'),
       (INSTORE, 'Stored'),
@@ -90,7 +91,7 @@ class Piece(models.Model):
     arranger = models.ManyToManyField(Person, related_name='arranger', blank=True, help_text="Select one or more names")
     genre = models.ManyToManyField(Genre, blank=True, help_text="Select one or more genres")
     feature = models.CharField(max_length=3, choices=INSTRUMENTS, blank=True, help_text="Select solo instrument")
-    status = models.CharField(max_length=2, choices=STATUS_CHOICES, default=INSTORE)
+    status = models.CharField(max_length=2, choices=STATUS_CHOICES, blank=True)
 
     class Meta:
 	    ordering = ('title',)

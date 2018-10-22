@@ -20,11 +20,17 @@ def index(request):
 
     return render(request, 'index.html', context={'num_visits':num_visits})
 
-def search(request):
-    piece_list = Piece.objects.all()
-    piece_filter = PieceFilter(request.GET, queryset=piece_list)  
+def searchList(request):
+    if request.method == "POST":
+        piece_list = Piece.objects.all()
+        piece_filter = PieceFilter(request.POST, queryset=piece_list)  
+        return render(request, 'search/pieceUpdateFilter.html', {'filter': piece_filter})
+    else:
+#        piece_list = Piece.objects.all()
+#        piece_filter = PieceFilter(request.GET, queryset=piece_list)  
+        piece_filter = PieceFilter(request.GET)  
 #    if user.is_staff(): 
-    return render(request, 'search/pieceUpdate1.html', {'filter': piece_filter})
+        return render(request, 'search/pieceUpdateFilter.html', {'filter': piece_filter})
 #    else:
 #        return render(request, 'search/pieceList1.html', {'filter': piece_filter})
 	
@@ -33,15 +39,40 @@ def searchPerson(request):
     person_filter = PersonFilter(request.GET, queryset=person_list)
     return render(request, 'search/personUpdate.html', {'filter': person_filter})
 
-def searchList(request):
-    piece_list = Piece.objects.all()
-    piece_filter = PieceFilter(request.GET, queryset=piece_list)
-    return render(request, 'search/pieceUpdateList.html', {'filter': piece_filter})
+def search(request):
+    if request.method == "POST":
+        form = PieceUpdateForm(request.POST)
+        if form.is_valid():
+            title= form.cleaned_data['title']
+            composer = form.cleaned_data['composer']
+            arranger = form.cleaned_data['arranger']
+            genre = form.cleaned_data['genre']
+            feature = form.cleaned_data['feature']
+            status = form.cleaned_data['status']
+            piece_list=Piece.objects.all()
+            if title:
+                piece_list=piece_list.filter(title__icontains=title)
+            if composer:
+                piece_list=piece_list.filter(composer__surname__icontains=composer)
+            if arranger:
+                piece_list=piece_list.filter(arranger__surname__icontains=arranger)
+            if genre:
+                piece_list=piece_list.filter(genre__id__exact=genre[0].id)
+            if feature:
+                piece_list=piece_list.filter(feature__exact=feature)
+            if status:
+                piece_list=piece_list.filter(status__exact=status)
+            return render(request, 'search/selectionTable.html', {'filter': piece_list,'noItems':len(piece_list)} )
+        else:
+            return redirect('/')
+    else:
+         form=PieceUpdateForm()
+         return render(request, 'search/pieceUpdate.html', {'form': form})
 
 def PieceSearch(request):
     piece_list = Piece.objects.all()
     piece_filter = PieceFilter(request.GET, queryset=piece_list)
-    return render(request, 'search/pieceSearch.html', {'filter': piece_filter})
+    return render(request, 'search/pieceUpdateFilter.html', {'filter': piece_filter})
 
 def PieceSearchList(request):
     if request.method == "POST":
@@ -58,6 +89,7 @@ def PieceSearchList(request):
         return render(request, 'search/pieceSearch.html', {'filter': piece_filter})
 	
 def PieceEdit(request, pk):
+    print("PieceEdit: method is ",request.method)
     piece = get_object_or_404(Piece, pk=pk)
 	
     if request.method == "POST":
@@ -82,7 +114,7 @@ def PieceEditList(request, pk):
         return redirect('pieceEditList', pk=piece.pk+1)
     else:
         form = PieceUpdateForm(instance=piece)
-    return render(request, 'search/pieceUpdate.html', {'form': form})	
+    return render(request, 'search/pieceUpdateForm.html', {'form': form})	
 
 def findPiece(request):
     return render(request, 'findPiece.html')
@@ -98,15 +130,15 @@ def addPiece(request):
             return redirect('piece-detail', pk=piece.pk)
     else:
         form = PieceUpdateForm()
-    return render(request, 'search/pieceUpdate.html', {'form': form})	
+    return render(request, 'search/pieceUpdateForm.html', {'form': form})	
 	
 def PieceUpdateView(request):
     """
     Edit the details for a piece
     """
-    composers= Person.objects.all()
+    composers= Piece.objects.all()
    
-    return render(request, 'pieceUpdate.html')
+    return render(request, 'pieceUpdate1.html')
 
 def listComposers(request):
     """
@@ -118,6 +150,12 @@ def listComposers(request):
 
 class PieceListView(generic.ListView):
     model = Piece
+    paginate_by = 15
+
+    def get_context_data(self, ** kwargs):
+        context = super().get_context_data( ** kwargs)
+        context['piece_list'] = Piece.objects.all().filter(status__in=['IS','ST'])
+        return context
 
 class PieceDetailView(generic.DetailView):
     model = Piece
@@ -231,7 +269,7 @@ def userLogin(request):
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
         return render(request, 'userLogin.html', {})
-		
+        
 # Use the login_required() decorator to ensure only those logged in can access the view.
 
 @login_required

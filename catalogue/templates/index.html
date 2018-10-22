@@ -3,8 +3,20 @@
 {% block content %}
 	<h1>Welcome to <em>LocalLibrary</em>, a catalogue of the musical items held in CSD's library. </h1>
 	{% if user.is_authenticated %}
-		<h2>You are logged in as {{ user.username }}!</h2>
-		<h3>Currently (October 2018) the contents of the library with titles from "A" to "Sh" have been checked. Christmas material is stored separately and has not been verified, nor have items that have been issued in the last 2 years.  </h3>
+		<h3>You are logged in as {{ user.username }}!</h3>
+		<h4>Currently (October 2018) the contents of the library with titles from "A" to "Z" have been
+		checked. Christmas material is stored separately and has not been verified, nor have items that
+		have been issued in the last 2 years.</h4>
+		<h4>The catalogue contains details of all the music in the Band's library. Each entry consists
+		of the item's title, the composer's name, the arranger's name, the style of the music, featured
+		solo instruments and item's status. The status of items in the library boxes is "STORED". Items
+		in the pads are tagged as "ISSUED". They remain "ISSUED" until they are replaced in the storage boxes.
+		Items that were listed in the 2013 reorganization but not present in October 2018 are marked as
+		"MISSING". Items that are removed from the library will be marked as "DISCARDED"</h4>
+		<h4>To see a list of the pieces in the catalogue press "List: Pieces". To search for items on
+		the basis of composer, arranger, genre, feature or status select "Search: piece". Searches for
+		title, composer or arranger names are not case dependent and will match any items which contain the
+		string you type. So "ForD" will find names like "Alford", "Brentford or "Fordham"  </h4>
 		<div class="footer">
 		<p>You have visited this page {{ num_visits }} times.</p>
 		</div>
