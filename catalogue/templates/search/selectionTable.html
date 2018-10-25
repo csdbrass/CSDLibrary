@@ -1,0 +1,53 @@
+{% extends 'base_generic.html' %}
+
+{% block content %}
+    <h4>Found {{noItems}} items</h4>
+	<table class="table table-bordered">
+		<thead>
+			<tr>
+				<th>Title</th>
+				<th>Composer</th>
+				<th>Arranger</th>
+				<th>Notes</th>
+				<th>Genre</th>
+				<th>Feature</th>
+				<th>Status</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% if user.is_staff %}
+				{% for piece in filter %}
+					<tr>
+						<td><a href="/catalogue/piece/{{piece.id}}/update">{{ piece.title }}</td>
+						<td>{{ piece.display_composer }}</td>
+						<td>{{ piece.display_arranger }}</td>
+						<td>{{ piece.display_note }}</td>
+						<td>{{ piece.display_genre }}</td>
+						<td>{{ piece.get_feature_display }}</td>
+						<td>{{ piece.get_status_display }}</td>
+					</tr>
+				{% empty %}
+					<tr>
+					<td colspan="7" style="text-align:center;">No data</td>
+					</tr>
+				{% endfor %}
+			{% else %}
+				{% for piece in filter %}
+					<tr>
+						<td>{{ piece.title }}</td>
+						<td>{{ piece.display_composer }}</td>
+						<td>{{ piece.display_arranger }}</td>
+						<td>{{ piece.display_note }}</td>
+						<td>{{ piece.display_genre }}</td>
+						<td>{{ piece.get_feature_display }}</td>
+						<td>{{ piece.get_status_display }}</td>
+					</tr>
+				{% empty %}
+					<tr>
+						<td colspan="7" style="text-align:center;">No data</td>
+					</tr>
+				{% endfor %}
+			{% endif %}
+		</tbody>
+	</table>
+{% endblock %}
