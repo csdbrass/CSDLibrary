@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    {% block title %}	
-	    <title>Local Title</title>
-	{% endblock %}
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  
-    <!-- Add additional CSS in static file -->
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <head>
+        {% block title %}
+	        <title>Local Title</title>
+	    {% endblock %}
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-  </head>
+        <!-- Add additional CSS in static file -->
+        {% load static %}
+        <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    </head>
+
     <body>
    	    <div class="container-fluid " >
 			<div class="mainbody">
@@ -28,51 +28,12 @@
 						</div>
 					</div>
 				</div>
-<!--				
-				{% block sidebar %}
-					<ul class="sidebar-nav" data-spy="affix" data-offset-top="0">
-						<li> <img src= "{% static 'catalogue/images/LogoName.png' %}" height="120" width="165" ></li>
-						<br>
-						{% if not user.is_authenticated %}
-							<li><a href={% url "userLogin" %}>Login</a></li>
-						{% else %}
-							<li><a href={% url "userLogout" %}>Logout</a></li>
-							<br>
-							<li> <a href="{% url 'index' %}">Home</a></li>
-							<br>
-							<li>List</li>
-							<li> <a href="{% url 'pieces' %}">All pieces</a></li>
-							<li> <a href="{% url 'person' %}">All composers and arrangers</a></li>
-							<br>
-							{% if user.is_staff %}
-								<li>Add </li>
-								<li><a href="{% url 'piece_create' %}">Piece</a></li>
-								<li><a href="{% url 'person_create' %}">Composer/arranger</a></li>
-								<br>
-								<li>Search/update </li>
-								<li><a href="{% url 'search' %}">Piece</a></li>
-								<li><a href="{% url 'searchPerson' %}">Composer/arranger</a></li>
-								<li><a href="{% url 'searchList' %}">Update many pieces</a></li>
-							{% else %}
-								<li>Search </li>
-								<li><a href="{% url 'search' %}">Piece</a></li>
-								<li><a href="{% url 'searchPerson' %}">Composer/arranger</a></li>
-							{%endif%}
-						{% endif %}
-					</ul>
-				{% endblock %}
-				
-				<div class="row">
-					<div class="col-sm-2" >
-						<h2>Navigation side-bar</h2>  
-					</div>
--->
 				<div class="row" style="margin-top:20px; padding:40px;">
 					<div class="col-sm-12 ">
 						{% block content %}
-					  
+
 						{% endblock %}
-			  
+
 						{% block pagination %}
 							{% if is_paginated %}
 							  <div class="pagination">
@@ -89,45 +50,43 @@
 								</span>
 							  </div>
 							{% endif %}
-						{% endblock %} 
+						{% endblock %}
 					</div>
 				</div>
 			</div>
 		</div>
+
+        <nav class="navbar navbar-inverse navbar-fixed-bottom" style="background:lightgreen; padding-top:2%; width;100%; border:none; margin:0;">
+            <div class="container-fluid" style="width:100%; margin:0;">
+                <ul class="nav navbar-nav" style="width:100%; margin:0;">
+            		<div class="row" style="width:100%; background:lightgreen;">
+            			<div class="col-sm-1 ">
+            				{% if not user.is_authenticated %}
+            					<li><a href={% url "userLogin" %}>Login</a></li>
+            				{% else %}
+            					<li><a href={% url "userLogout" %}>Logout</a></li>
+            				{% endif %}
+            			</div>
+            			<div class="col-sm-1 "><li> <a href="{% url 'index' %}">Home</a></li></div>
+            			<div class="col-sm-1"></div>
+            			<div class="col-sm-1 "><li>List: <a href="{% url 'pieces' %}">Pieces</a></li></div>
+            			<div class="col-sm-1 "><li><a href="{% url 'person' %}">Composers</a></li></div>
+            			{% if user.is_staff %}
+            				<div class="col-sm-1"></div>
+            				<div class="col-sm-1 "><li>Add: <a href="{% url 'piece_create' %}">Piece</a></li></div>
+            				<div class="col-sm-1 "><li><a href="{% url 'person_create' %}">Composer</a></li></div>
+            				<div class="col-sm-1">Search/Edit: </div>
+            				<div class="col-sm-1 "><li><a href="{% url 'search' %}">Piece</a></li></div>
+            				<div class="col-sm-1 "><li> <a href="{% url 'searchPerson' %}">Composer</a></li></div>
+            				<div class="col-sm-1 "><li> <a href="{% url 'searchList' %}"> Many pieces</a></li></div>
+            			{% else %}
+            				<div class="col-sm-1">Search: </div>
+            				<div class="col-sm-1 "><li><a href="{% url 'search' %}">Piece</a></li></div>
+            				<div class="col-sm-1 "><li><a href="{% url 'searchPerson' %}">Composer</a></li></div>
+            			{%endif%}
+            		</div>
+            	</ul>
+            </div>
+        </nav>
     </body>
 </html>
-
-{%if user.is_authenticated%}
- <nav class="navbar navbar-inverse navbar-fixed-bottom" style="background:lightgreen; padding-top:2%; width;100%; border:none; margin:0;">
-  <div class="container-fluid" style="width:100%; margin:0;">
-    <ul class="nav navbar-nav" style="width:100%; margin:0;">
-		<div class="row" style="width:100%; background:lightgreen;">
-			<div class="col-sm-1 ">
-				{% if not user.is_authenticated %}
-					<li><a href={% url "userLogin" %}>Login</a></li>
-				{% else %}
-					<li><a href={% url "userLogout" %}>Logout</a></li>
-				{% endif %}
-			</div>
-			<div class="col-sm-1 "><li> <a href="{% url 'index' %}">Home</a></li></div>
-			<div class="col-sm-1"></div>
-			<div class="col-sm-1 "><li>List: <a href="{% url 'pieces' %}">Pieces</a></li></div>
-			<div class="col-sm-1 "><li><a href="{% url 'person' %}">Composers</a></li></div>
-			{% if user.is_staff %}
-				<div class="col-sm-1"></div>
-				<div class="col-sm-1 "><li>Add: <a href="{% url 'piece_create' %}">Piece</a></li></div>
-				<div class="col-sm-1 "><li><a href="{% url 'person_create' %}">Composer</a></li></div>
-				<div class="col-sm-1">Search/Edit: </div>
-				<div class="col-sm-1 "><li><a href="{% url 'search' %}">Piece</a></li></div>
-				<div class="col-sm-1 "><li> <a href="{% url 'searchPerson' %}">Composer</a></li></div>
-				<div class="col-sm-1 "><li> <a href="{% url 'searchList' %}"> Many pieces</a></li></div>
-			{% else %}
-				<div class="col-sm-1">Search: </div>
-				<div class="col-sm-1 "><li><a href="{% url 'search' %}">Piece</a></li></div>
-				<div class="col-sm-1 "><li><a href="{% url 'searchPerson' %}">Composer</a></li></div>
-			{%endif%}
-		</div>
-	</ul>
-  </div>
-</nav> 
-{%endif%}

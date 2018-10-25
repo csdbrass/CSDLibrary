@@ -1,5 +1,5 @@
 from django.http import HttpResponse, HttpResponseRedirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.shortcuts import redirect, render, get_object_or_404
 from django.views import generic
 from django.contrib.auth import authenticate, login, logout
@@ -7,8 +7,8 @@ from django.contrib.auth.decorators import login_required
 
 #  Create your views here.
 
-from .models import Piece, Person, Genre
-from .forms import PieceUpdateForm
+from .models import Piece, Person
+from .forms import PieceUpdateForm, PieceSearchForm
 from .filters import PieceFilter, PersonFilter
 
 def index(request):
@@ -23,17 +23,17 @@ def index(request):
 def searchList(request):
     if request.method == "POST":
         piece_list = Piece.objects.all()
-        piece_filter = PieceFilter(request.POST, queryset=piece_list)  
+        piece_filter = PieceFilter(request.POST, queryset=piece_list)
         return render(request, 'search/pieceUpdateFilter.html', {'filter': piece_filter})
     else:
 #        piece_list = Piece.objects.all()
-#        piece_filter = PieceFilter(request.GET, queryset=piece_list)  
-        piece_filter = PieceFilter(request.GET)  
-#    if user.is_staff(): 
+#        piece_filter = PieceFilter(request.GET, queryset=piece_list)
+        piece_filter = PieceFilter(request.GET)
+#    if user.is_staff():
         return render(request, 'search/pieceUpdateFilter.html', {'filter': piece_filter})
 #    else:
 #        return render(request, 'search/pieceList1.html', {'filter': piece_filter})
-	
+
 def searchPerson(request):
     person_list = Person.objects.all()
     person_filter = PersonFilter(request.GET, queryset=person_list)
@@ -41,7 +41,7 @@ def searchPerson(request):
 
 def search(request):
     if request.method == "POST":
-        form = PieceUpdateForm(request.POST)
+        form = PieceSearchForm(request.POST)
         if form.is_valid():
             title= form.cleaned_data['title']
             composer = form.cleaned_data['composer']
@@ -64,10 +64,10 @@ def search(request):
                 piece_list=piece_list.filter(status__exact=status)
             return render(request, 'search/selectionTable.html', {'filter': piece_list,'noItems':len(piece_list)} )
         else:
-            return redirect('/')
+            return redirect('search')
     else:
-         form=PieceUpdateForm()
-         return render(request, 'search/pieceUpdate.html', {'form': form})
+         form=PieceSearchForm()
+         return render(request, 'search/pieceSearch.html', {'form': form})
 
 def PieceSearch(request):
     piece_list = Piece.objects.all()
@@ -78,7 +78,7 @@ def PieceSearchList(request):
     if request.method == "POST":
         form = PieceUpdateForm(request.POST, instance=piece)
         if form.has_changed():
-            if form.is_valid():   
+            if form.is_valid():
                 piece = form.save()
             else:
                 pass    # erroneous form
@@ -87,11 +87,11 @@ def PieceSearchList(request):
         piece_list = Piece.objects.all()
         piece_filter = PieceFilter(request.GET, queryset=piece_list)
         return render(request, 'search/pieceSearch.html', {'filter': piece_filter})
-	
+
 def PieceEdit(request, pk):
     print("PieceEdit: method is ",request.method)
     piece = get_object_or_404(Piece, pk=pk)
-	
+
     if request.method == "POST":
         form = PieceUpdateForm(request.POST, instance=piece)
         if form.is_valid():
@@ -99,22 +99,22 @@ def PieceEdit(request, pk):
             return redirect('piece-detail', pk=piece.pk)
     else:
         form = PieceUpdateForm(instance=piece)
-    return render(request, 'search/pieceUpdate.html', {'form': form})	
+    return render(request, 'search/pieceUpdate.html', {'form': form})
 
 def PieceEditList(request, pk):
     piece = get_object_or_404(Piece, pk=pk)
-	
+
     if request.method == "POST":
         form = PieceUpdateForm(request.POST, instance=piece)
         if form.has_changed():
-            if form.is_valid():   
+            if form.is_valid():
                 piece = form.save()
             else:
                 pass    # erroneous form
         return redirect('pieceEditList', pk=piece.pk+1)
     else:
         form = PieceUpdateForm(instance=piece)
-    return render(request, 'search/pieceUpdateForm.html', {'form': form})	
+    return render(request, 'search/pieceUpdateForm.html', {'form': form})
 
 def findPiece(request):
     return render(request, 'findPiece.html')
@@ -130,14 +130,14 @@ def addPiece(request):
             return redirect('piece-detail', pk=piece.pk)
     else:
         form = PieceUpdateForm()
-    return render(request, 'search/pieceUpdateForm.html', {'form': form})	
-	
+    return render(request, 'search/pieceUpdateForm.html', {'form': form})
+
 def PieceUpdateView(request):
     """
     Edit the details for a piece
     """
-    composers= Piece.objects.all()
-   
+#    composers= Piece.objects.all()
+
     return render(request, 'pieceUpdate1.html')
 
 def listComposers(request):
@@ -150,7 +150,7 @@ def listComposers(request):
 
 class PieceListView(generic.ListView):
     model = Piece
-    paginate_by = 15
+#    paginate_by = 15
 
     def get_context_data(self, ** kwargs):
         context = super().get_context_data( ** kwargs)
@@ -164,23 +164,23 @@ class PersonListView(generic.ListView):
     model = Person
 
 class PersonDetailView(generic.DetailView):
-    model = Person 
+    model = Person
 
 class ComposerListView(generic.ListView):
     model = Person
 
 class ComposerDetailView(generic.DetailView):
-    model = Person 
+    model = Person
 
 class ArrangerListView(generic.ListView):
     model = Person
 
 class ArrangerDetailView(generic.DetailView):
-    model = Person 
+    model = Person
 
 #from django.contrib.auth.mixins import PermissionRequiredMixin
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+#from django.urls import reverse_lazy
 from .models import Person
 
 
@@ -202,7 +202,7 @@ class PersonUpdate(UpdateView):
 #    fields = ['firstName','surname',]
 #    permission_required = 'catalogue.can_mark_returned'
 #    success_url = reverse_lazy('personUpdate')
-	
+
 #class PersonDelete(PermissionRequiredMixin, DeleteView):
 class PersonDelete(DeleteView):
     model = Person
@@ -269,7 +269,7 @@ def userLogin(request):
         # No context variables to pass to the template system, hence the
         # blank dictionary object...
         return render(request, 'userLogin.html', {})
-        
+
 # Use the login_required() decorator to ensure only those logged in can access the view.
 
 @login_required
